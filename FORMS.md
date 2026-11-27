@@ -88,7 +88,7 @@ GitHub Pages settings and the `CNAME` file are untouched by all of this.
 
 Today the forms run at `cc.braunf.com/f/<slug>` (public files from CalmWeb's GitHub Pages copy of `docs/f/`, `docs/forms/`, `docs/tokens.css`, plus the Worker routes) and the admin at `ccadmin.braunf.com`. This repo is now the source; CalmWeb keeps frozen copies of the public form files, checked against this repo by its Source sync workflow, so the old links keep working.
 
-Status (27 Nov 2026): steps 1, 2, 5 and the admin domain in step 4 are done; the routes in `worker/wrangler.toml` and `publicOrigin` in `admin/config.js` are set in the repo and go live with `npx wrangler deploy` and `bash scripts/deploy-admin.sh`.
+Status (27 Nov 2026): done. Forms are live at form.calmcampus.app (Worker deployed with the new routes), the admin at admin.calmcampus.app (deployed with `publicOrigin` = form.calmcampus.app), and cc.braunf.com/f/ and ccadmin.braunf.com still work.
 
 1. DNS (calmcampus.app zone): `form` CNAME `calmcampus-fv.github.io`. Start DNS only (grey cloud).
 2. GitHub: CalmForms Settings > Pages > Custom domain `form.calmcampus.app`; wait for the certificate, tick Enforce HTTPS.

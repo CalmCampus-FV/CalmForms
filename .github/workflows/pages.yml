@@ -1,11 +1,10 @@
 name: Pages
 
 # Publishes docs/ (the public form files) as this repo's own GitHub Pages site.
-# Planned custom domain: form.calmcampus.app (docs/CNAME). The pages use root-relative paths,
-# so the calmcampus-fv.github.io/CalmForms/ address is not meant for visitors.
-# With an Actions deploy, GitHub ignores the CNAME file: the custom domain is switched on in
-# Settings > Pages only once its DNS record exists. Until the cutover, the live forms at
-# cc.braunf.com/f/<slug> keep being served from CalmWeb's copies plus the Worker.
+# Live at https://form.calmcampus.app/ (custom domain set in Settings > Pages; docs/CNAME documents it,
+# GitHub ignores it for Actions deploys). The calmweb-forms Worker answers /api/*, /f/*, /forms/* and
+# /tokens.css on that host and passes the static files through to this site. Old links on
+# cc.braunf.com/f/<slug> keep being served from CalmWeb's copies plus the same Worker.
 on:
   push:
     branches: [main]
