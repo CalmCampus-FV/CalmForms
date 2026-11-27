@@ -84,15 +84,15 @@ None of this is automated, because it creates accounts and changes DNS. Do these
 
 GitHub Pages settings and the `CNAME` file are untouched by all of this.
 
-## Moving to form.calmcampus.app and admin.calmcampus.app (prepared, not live)
+## Moving to form.calmcampus.app and admin.calmcampus.app
 
 Today the forms run at `cc.braunf.com/f/<slug>` (public files from CalmWeb's GitHub Pages copy of `docs/f/`, `docs/forms/`, `docs/tokens.css`, plus the Worker routes) and the admin at `ccadmin.braunf.com`. This repo is now the source; CalmWeb keeps frozen copies of the public form files, checked against this repo by its Source sync workflow, so the old links keep working.
 
-Planned:
+Status (27 Nov 2026): steps 1, 2, 5 and the admin domain in step 4 are done; the routes in `worker/wrangler.toml` and `publicOrigin` in `admin/config.js` are set in the repo and go live with `npx wrangler deploy` and `bash scripts/deploy-admin.sh`.
 
 1. DNS (calmcampus.app zone): `form` CNAME `calmcampus-fv.github.io`. Start DNS only (grey cloud).
 2. GitHub: CalmForms Settings > Pages > Custom domain `form.calmcampus.app`; wait for the certificate, tick Enforce HTTPS.
-3. Cloudflare: switch the `form` record to Proxied (SSL/TLS mode Full (strict)), uncomment the `form.calmcampus.app` routes in `worker/wrangler.toml` and `npx wrangler deploy`. Keep the `cc.braunf.com` routes.
+3. Cloudflare: switch the `form` record to Proxied (SSL/TLS mode Full (strict)) and `cd worker && npx wrangler deploy` (the `form.calmcampus.app` routes are in `worker/wrangler.toml`). Keep the `cc.braunf.com` routes.
 4. Admin: in the `calmweb-admin` Worker, Settings > Domains & Routes > Add custom domain `admin.calmcampus.app` (keep `ccadmin.braunf.com`). Set `publicOrigin` in `admin/config.js` to `https://form.calmcampus.app` and run `bash scripts/deploy-admin.sh`, so new share links use the new address.
 5. Supabase: Authentication > URL Configuration: Site URL `https://admin.calmcampus.app`, and keep `https://ccadmin.braunf.com` in Redirect URLs (the emailed sign-in link goes to the Site URL).
 6. If Cloudflare Access is ever put in front of the admin, add `admin.calmcampus.app` to the same Access application.

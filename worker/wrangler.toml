@@ -2,20 +2,18 @@ name = "calmweb-forms"
 main = "src/index.js"
 compatibility_date = "2026-10-01"
 
-# Production routes. They only take effect once the cc.braunf.com DNS record is proxied (orange cloud).
+# Production routes (they only work on proxied DNS records). cc.braunf.com stays as the fallback for
+# form links already sent; form.calmcampus.app is the new address (static files from this repo's Pages).
 routes = [
   { pattern = "cc.braunf.com/api/*", zone_name = "braunf.com" },
   { pattern = "cc.braunf.com/f/*",   zone_name = "braunf.com" },
   { pattern = "cc.braunf.com/forms/*", zone_name = "braunf.com" },
   { pattern = "cc.braunf.com/tokens.css", zone_name = "braunf.com" },
+  { pattern = "form.calmcampus.app/api/*",   zone_name = "calmcampus.app" },
+  { pattern = "form.calmcampus.app/f/*",     zone_name = "calmcampus.app" },
+  { pattern = "form.calmcampus.app/forms/*", zone_name = "calmcampus.app" },
+  { pattern = "form.calmcampus.app/tokens.css", zone_name = "calmcampus.app" },
 ]
-# Planned for the calmcampus.app move (uncomment, then `npx wrangler deploy`, only after the
-# form.calmcampus.app DNS record exists and is proxied). Keep the cc.braunf.com routes above so the
-# links already sent keep working.
-#  { pattern = "form.calmcampus.app/api/*",   zone_name = "calmcampus.app" },
-#  { pattern = "form.calmcampus.app/f/*",     zone_name = "calmcampus.app" },
-#  { pattern = "form.calmcampus.app/forms/*", zone_name = "calmcampus.app" },
-#  { pattern = "form.calmcampus.app/tokens.css", zone_name = "calmcampus.app" },
 
 [triggers]
 crons = ["17 * * * *"]   # hourly: retention purge + re-shuffle of anonymous tables

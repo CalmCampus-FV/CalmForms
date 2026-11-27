@@ -102,6 +102,16 @@ test('routing: /f/<slug> serves the form shell, /f/app.js and /f/ pass through u
   assert.match(seen.at(-1), /\/f\/$/);
 });
 
+test('routing works the same on form.calmcampus.app (new address) as on cc.braunf.com', async () => {
+  const seen = [];
+  globalThis.fetch = async (u) => { const url = String(u.url || u); seen.push(url); return new Response('<html>shell</html>', { status: 200, headers: { 'content-type': 'text/html' } }); };
+  const shell = await worker.fetch(new Request('https://form.calmcampus.app/f/case-study'), env);
+  assert.equal(shell.status, 200);
+  assert.ok(seen.some((u) => u === 'https://form.calmcampus.app/f/index.html'), 'shell comes from the same host');
+  await worker.fetch(new Request('https://form.calmcampus.app/tokens.css'), env);
+  assert.equal(seen.at(-1), 'https://form.calmcampus.app/tokens.css');
+});
+
 test('scheduled job purges expired data and reshuffles anonymous tables', async () => {
   const calls = mockSupabase({ purge_expired: 0, reshuffle_anonymous: null });
   await worker.scheduled({}, env);
