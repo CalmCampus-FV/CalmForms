@@ -21,8 +21,8 @@ Architecture, privacy model and going live: **[FORMS.md](FORMS.md)**. Rules for 
 
 ## Where it runs
 
-- Forms: `https://cc.braunf.com/f/<slug>` today (served from CalmWeb's copies plus the Worker). Planned: `form.calmcampus.app`.
-- Admin: `https://ccadmin.braunf.com` today. Planned: `admin.calmcampus.app`.
+- Forms: `https://form.calmcampus.app/f/<slug>` (this repo's Pages site plus the Worker). Old links on `https://cc.braunf.com/f/<slug>` keep working (CalmWeb's copies plus the same Worker).
+- Admin: `https://admin.calmcampus.app`, with `https://ccadmin.braunf.com` as a fallback (both on the `calmweb-admin` Worker).
 
 ## Team
 
