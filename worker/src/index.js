@@ -1,4 +1,4 @@
-// CalmWeb ingest Worker (cc.braunf.com/api/* and /f/*).
+// CalmCampus forms ingest Worker (cc.braunf.com/api/* and /f/*; source: CalmCampus-FV/CalmForms).
 //
 // Why this exists: respondents must never call Supabase directly, because Supabase's API logs
 // would record their IP. They call this Worker, and the Worker talks to Supabase with the
