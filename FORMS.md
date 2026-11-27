@@ -1,4 +1,4 @@
-# CalmWeb forms platform
+# CalmForms: the CalmCampus forms platform
 
 A custom form builder and public form pages in the CalmCampus design system, running on cc.braunf.com. Built instead of Tally or Google Forms so that the look, the privacy promise and the wellness-specific question types are ours. The first form to run on it is an anonymous demand case study (template `case-study`).
 
@@ -84,9 +84,24 @@ None of this is automated, because it creates accounts and changes DNS. Do these
 
 GitHub Pages settings and the `CNAME` file are untouched by all of this.
 
+## Moving to form.calmcampus.app and admin.calmcampus.app (prepared, not live)
+
+Today the forms run at `cc.braunf.com/f/<slug>` (public files from CalmWeb's GitHub Pages copy of `docs/f/`, `docs/forms/`, `docs/tokens.css`, plus the Worker routes) and the admin at `ccadmin.braunf.com`. This repo is now the source; CalmWeb keeps frozen copies of the public form files, checked against this repo by its Source sync workflow, so the old links keep working.
+
+Planned:
+
+1. DNS (calmcampus.app zone): `form` CNAME `calmcampus-fv.github.io`. Start DNS only (grey cloud).
+2. GitHub: CalmForms Settings > Pages > Custom domain `form.calmcampus.app`; wait for the certificate, tick Enforce HTTPS.
+3. Cloudflare: switch the `form` record to Proxied (SSL/TLS mode Full (strict)), uncomment the `form.calmcampus.app` routes in `worker/wrangler.toml` and `npx wrangler deploy`. Keep the `cc.braunf.com` routes.
+4. Admin: in the `calmweb-admin` Worker, Settings > Domains & Routes > Add custom domain `admin.calmcampus.app` (keep `ccadmin.braunf.com`). Set `publicOrigin` in `admin/config.js` to `https://form.calmcampus.app` and run `bash scripts/deploy-admin.sh`, so new share links use the new address.
+5. Supabase: Authentication > URL Configuration: Site URL `https://admin.calmcampus.app`, and keep `https://ccadmin.braunf.com` in Redirect URLs (the emailed sign-in link goes to the Site URL).
+6. If Cloudflare Access is ever put in front of the admin, add `admin.calmcampus.app` to the same Access application.
+
+Old links: `cc.braunf.com/f/<slug>` keeps working through the existing Worker routes and CalmWeb's copies. If cc.braunf.com later redirects to calmcampus.app, exclude `/api/*` from that redirect (a redirect breaks form submissions in flight) and send `/f/*` to `form.calmcampus.app/f/*`.
+
 ## Running it
 
-- **Where things live.** Supabase project in Frankfurt (data). Cloudflare Worker `calmweb-forms` on `cc.braunf.com/api/*`, `/f/*`, `/forms/*`, `/tokens.css`. Cloudflare static site `calmweb-admin` at `ccadmin.braunf.com`. The public form files come from GitHub Pages (`main`, `/docs`).
+- **Where things live.** Code: this repo (CalmCampus-FV/CalmForms); CalmWeb serves frozen copies of `docs/f/`, `docs/forms/` and `docs/tokens.css` until the cutover. Supabase project in Frankfurt (data). Cloudflare Worker `calmweb-forms` on `cc.braunf.com/api/*`, `/f/*`, `/forms/*`, `/tokens.css`. Cloudflare static site `calmweb-admin` at `ccadmin.braunf.com`. The public form files come from GitHub Pages (`main`, `/docs`).
 - **Shipping a change.** Public form files: merge to `main` (GitHub Pages publishes). Admin or shared form files: `bash scripts/deploy-admin.sh`. Worker: `cd worker && npx wrangler deploy`. Database changes: add a new migration file, never edit one that has already run.
 - **Settings only apply when you publish.** The response limit, the dates and the privacy-notice wording are part of a form's published version.
 - **Dates.** Leave Opens and Closes empty unless you mean them; the admin refuses to publish a closing time in the past.

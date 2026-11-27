@@ -9,6 +9,13 @@ routes = [
   { pattern = "cc.braunf.com/forms/*", zone_name = "braunf.com" },
   { pattern = "cc.braunf.com/tokens.css", zone_name = "braunf.com" },
 ]
+# Planned for the calmcampus.app move (uncomment, then `npx wrangler deploy`, only after the
+# form.calmcampus.app DNS record exists and is proxied). Keep the cc.braunf.com routes above so the
+# links already sent keep working.
+#  { pattern = "form.calmcampus.app/api/*",   zone_name = "calmcampus.app" },
+#  { pattern = "form.calmcampus.app/f/*",     zone_name = "calmcampus.app" },
+#  { pattern = "form.calmcampus.app/forms/*", zone_name = "calmcampus.app" },
+#  { pattern = "form.calmcampus.app/tokens.css", zone_name = "calmcampus.app" },
 
 [triggers]
 crons = ["17 * * * *"]   # hourly: retention purge + re-shuffle of anonymous tables
