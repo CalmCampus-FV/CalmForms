@@ -7,7 +7,7 @@ The CalmCampus forms platform: public form pages, the ingest Worker, the databas
 - Public forms: `https://cc.braunf.com/f/<slug>` (for example `/f/case-study`). The static files are CalmWeb's GitHub Pages copies of `docs/f/`, `docs/forms/` and `docs/tokens.css` from this repo; the Cloudflare Worker `calmweb-forms` (`worker/`) answers `cc.braunf.com/api/*`, `/f/*`, `/forms/*`, `/tokens.css`.
 - Admin: `https://ccadmin.braunf.com`, the Cloudflare static site `calmweb-admin` (`admin/wrangler.toml`), deployed with `bash scripts/deploy-admin.sh`.
 - Data: Supabase (EU). The Worker deploy, the admin deploy and Supabase settings are done by hand by Florian (they need Cloudflare and Supabase logins); CI never deploys them.
-- After changing `docs/f/`, `docs/forms/` or `docs/tokens.css` here, run `bash scripts/sync-forms.sh` in CalmWeb and merge that PR; CalmWeb's Source sync workflow fails until the copies match.
+- After changing `docs/f/` or `docs/forms/` here, run `bash scripts/sync-forms.sh` in CalmWeb and merge that PR; CalmWeb's Source sync workflow fails until the copies match. `docs/tokens.css` and `docs/assets/` are copies of CalmWeb's (the website owns them); on cc.braunf.com the website's versions are served.
 
 Planned (prepared, not live): forms at `form.calmcampus.app` (this repo's own Pages site, `docs/CNAME`, `.github/workflows/pages.yml`; GitHub ignores the CNAME file for Actions deploys until the domain is set in Settings > Pages) and the admin at `admin.calmcampus.app`. Steps in `FORMS.md`, "Moving to form.calmcampus.app".
 
